@@ -1,0 +1,571 @@
+{
+	"info": {
+		"_postman_id": "ffa9a5d4-b232-46a5-b37a-d65355ac6d52",
+		"name": "Foro Hub API - Complete",
+		"description": "Collection completa para probar la API del Foro Hub con autenticación JWT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41957491"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "1. Registrar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Juan Pérez\",\n  \"email\": \"juan.perez@gmail.com\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Login Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('jwt_token', response.token);",
+									"    console.log('Token guardado:', response.token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"juan.perez@gmail.com\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tópicos CRUD",
+			"item": [
+				{
+					"name": "1. Crear Tópico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"¿Cómo configurar Spring Security con JWT?\",\n  \"mensaje\": \"Necesito ayuda para implementar autenticación JWT en mi aplicación Spring Boot. ¿Alguien tiene un ejemplo completo?\",\n  \"autor\": \"Juan Pérez\",\n  \"curso\": \"Spring Security\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Crear Tópico - Java Básico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Diferencia entre List y ArrayList\",\n  \"mensaje\": \"¿Cuál es la diferencia práctica entre usar List<String> y ArrayList<String>? ¿Cuándo usar cada uno?\",\n  \"autor\": \"María González\",\n  \"curso\": \"Java Básico\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Crear Tópico - Spring Data JPA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Problema con consultas personalizadas en JPA\",\n  \"mensaje\": \"Estoy intentando crear una consulta personalizada usando @Query pero me da error de sintaxis. ¿Alguien puede revisar mi código?\",\n  \"autor\": \"Carlos Rodríguez\",\n  \"curso\": \"Spring Data JPA\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. Listar Todos los Tópicos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Listar con Paginación",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos?page=0&size=5&sort=fechaCreacion,desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "fechaCreacion,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Buscar por Curso",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos?curso=Spring",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							],
+							"query": [
+								{
+									"key": "curso",
+									"value": "Spring"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Buscar por Año",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos?year=2024",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2024"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Buscar por Curso y Año",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos?curso=Java&year=2024",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							],
+							"query": [
+								{
+									"key": "curso",
+									"value": "Java"
+								},
+								{
+									"key": "year",
+									"value": "2024"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Obtener Tópico por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. Actualizar Tópico (PUT)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"titulo\": \"¿Cómo configurar Spring Security con JWT? - ACTUALIZADO\",\n  \"mensaje\": \"Necesito ayuda para implementar autenticación JWT en mi aplicación Spring Boot. He estado leyendo la documentación pero aún tengo dudas sobre la configuración. ¿Alguien tiene un ejemplo completo y actualizado?\",\n  \"autor\": \"Juan Pérez\",\n  \"curso\": \"Spring Security Avanzado\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11. Actualizar Tópico (PATCH - Parcial)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"titulo\": \"¿Cómo configurar Spring Security con JWT? - RESUELTO\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12. Eliminar Tópico",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Casos de Error",
+			"item": [
+				{
+					"name": "Error 400 - Tópico Duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"¿Cómo configurar Spring Security con JWT?\",\n  \"mensaje\": \"Necesito ayuda para implementar autenticación JWT en mi aplicación Spring Boot. ¿Alguien tiene un ejemplo completo?\",\n  \"autor\": \"Juan Pérez\",\n  \"curso\": \"Spring Security\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error 400 - Campos Vacíos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"\",\n  \"mensaje\": \"\",\n  \"autor\": \"\",\n  \"curso\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error 404 - Tópico No Existe",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/topicos/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error 401 - Sin Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/topicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

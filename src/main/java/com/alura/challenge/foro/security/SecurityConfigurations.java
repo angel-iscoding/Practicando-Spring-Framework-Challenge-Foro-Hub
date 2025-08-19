@@ -14,11 +14,10 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // ✅ DESHABILITAR CSRF
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/topicos/**").permitAll();
-                    req.anyRequest().authenticated();
+                    req.anyRequest().permitAll(); // ✅ PERMITIR TODAS LAS PETICIONES
                 })
                 .build();
     }
